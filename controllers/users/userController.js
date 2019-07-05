@@ -1,17 +1,15 @@
 const router = require("express").Router();
 const {
-  fetchAllTodos,
-  deleteTodo,
-  updateTodo,
-  fetchTodo,
-  addTodo
-} = require("./listQueries");
-const socket = require("../../socket-manager/socketConnection");
+  fetchAllUsers,
+  deleteUser,
+  updateUser,
+  fetchUser,
+  addUser
+} = require("./userQueries");
 
 router.get("/", async (req, res) => {
   try {
-    const result = await fetchAllTodos();
-    socket.emitChanges();
+    const result = await fetchAllUsers();
     res.send({ result });
   } catch (ex) {
     res.status(404).send("something went wrong");
@@ -20,7 +18,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const result = await fetchTodo(req.params.id);
+    const result = await fetchUser(req.params.id);
     res.send({ result });
   } catch (ex) {
     res.status(404).send("the id you entered is not valid");
@@ -29,7 +27,7 @@ router.get("/:id", async (req, res) => {
 
 router.put("/", async (req, res) => {
   try {
-    const result = await updateTodo(req.body.id, req.body.updateData);
+    const result = await updateUser(req.body.id, req.body.updateData);
     res.send({ result });
   } catch (ex) {
     res.status(404).send(ex.errors);
@@ -38,7 +36,7 @@ router.put("/", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const result = await deleteTodo(req.params.id);
+    const result = await deleteUser(req.params.id);
     res.send({ result });
   } catch (ex) {
     res.status(404).send("the id you entered is not valid");
@@ -47,7 +45,7 @@ router.delete("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    let result = await addTodo(req.body.todoData);
+    let result = await addUser(req.body.userData);
     res.send(result);
   } catch (ex) {
     res.status(404).send(ex.errors);
