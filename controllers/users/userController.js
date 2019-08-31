@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const bcrypt = require("bcrypt");
 const {
   fetchAllUsers,
   deleteUser,
@@ -45,7 +46,13 @@ router.delete("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    let result = await addUser(req.body.userData);
+    let tmpData = { ...req.body.userData };
+    console.log(tmpData);
+    const salt = await bcrypt.genSalt(10);
+    tmpData.password = await bcrypt.hash(tmpData.password, salt);
+    console.log(tmpData);
+    let result = await addUser(tmpData);
+    console.log(result);
     res.send(result);
   } catch (ex) {
     res.status(404).send(ex.errors);

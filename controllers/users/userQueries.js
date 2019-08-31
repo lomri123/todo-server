@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  name: { type: String }
+  name: { type: String, required: true },
+  email: { type: String, unique: true, required: true },
+  password: { type: String, required: true }
 });
 
 const Users = mongoose.model("users", userSchema);
@@ -26,7 +28,9 @@ const updateUser = (id, updateData) => {
 
 const addUser = userData => {
   const user = {
-    name: userData.name
+    name: userData.name,
+    email: userData.email,
+    password: userData.password
   };
   const tmpUserSchema = new Users(user);
   const result = tmpUserSchema.save();

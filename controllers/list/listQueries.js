@@ -9,7 +9,7 @@ const listSchema = new mongoose.Schema({
 const Todos = mongoose.model("todos", listSchema);
 
 const fetchAllTodos = () => {
-  return Todos.find();
+  return Todos.find().sort({ _id: -1 });
 };
 
 const fetchTodo = id => {

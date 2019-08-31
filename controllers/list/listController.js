@@ -6,12 +6,10 @@ const {
   fetchTodo,
   addTodo
 } = require("./listQueries");
-const socket = require("../../socket-manager/socketConnection");
 
 router.get("/", async (req, res) => {
   try {
     const result = await fetchAllTodos();
-    socket.emitChanges();
     res.send({ result });
   } catch (ex) {
     res.status(404).send("something went wrong");
